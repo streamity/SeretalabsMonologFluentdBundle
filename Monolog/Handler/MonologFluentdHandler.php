@@ -125,7 +125,7 @@ class MonologFluentdHandler extends AbstractProcessingHandler
 		$tag = $tag . '.' . $this->env;
 
 
-		if (isset($record['formatted']) && is_array($record['formatted'])) {
+		if (isset($record['formatted'])) {
 			unset($record['formatted']);
 		}
 
