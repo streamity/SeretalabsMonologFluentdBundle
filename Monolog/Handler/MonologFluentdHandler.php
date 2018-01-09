@@ -113,9 +113,9 @@ class MonologFluentdHandler extends AbstractProcessingHandler
 	 */
 	protected function write(array $record)
 	{
-        if (!$this->lazyLoadLogger()) {
-            return;
-        }
+		if (!$this->lazyLoadLogger()) {
+		    return;
+		}
 
 		if (isset($record['context']) && isset($record['context']['tag'])) {
 			$tag = $record['context']['tag'];
@@ -128,6 +128,12 @@ class MonologFluentdHandler extends AbstractProcessingHandler
 		if (isset($record['formatted'])) {
 			unset($record['formatted']);
 		}
+
+		array_walk_recursive($record, function (& $value) {
+		    if (is_string($value)) {
+			$value = substr($value, 0, 1500);
+		    }
+		});
 
 		$this->logger->post($tag, $record);
 	}
